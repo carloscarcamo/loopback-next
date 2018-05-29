@@ -8,12 +8,15 @@ import * as HttpErrors from 'http-errors';
 import {
   OperationObject,
   ParameterObject,
+  SchemaObject,
+  ReferenceObject,
   isReferenceObject,
 } from '@loopback/openapi-v3-types';
 import {REQUEST_BODY_INDEX} from '@loopback/openapi-v3';
 import {promisify} from 'util';
 import {OperationArgs, Request, PathParameterValues} from './types';
 import {ResolvedRoute} from './router/routing-table';
+import {paramCoerce} from './coerce/coerce-param';
 type HttpError = HttpErrors.HttpError;
 
 // tslint:disable-next-line:no-any
@@ -103,13 +106,14 @@ function buildOperationArguments(
     const spec = paramSpec as ParameterObject;
     switch (spec.in) {
       case 'query':
-        paramArgs.push(request.query[spec.name]);
+        paramArgs.push(paramCoerce(request.query[spec.name], spec.schema));
         break;
       case 'path':
-        paramArgs.push(pathParams[spec.name]);
+        paramArgs.push(paramCoerce(pathParams[spec.name], spec.schema));
         break;
       case 'header':
-        paramArgs.push(request.headers[spec.name.toLowerCase()]);
+        // @jannyhou TBD: check edge cases 
+        paramArgs.push(paramCoerce(request.headers[spec.name.toLowerCase()] as string, spec.schema));
         break;
       // TODO(jannyhou) to support `cookie`,
       // see issue https://github.com/strongloop/loopback-next/issues/997
@@ -122,3 +126,4 @@ function buildOperationArguments(
   if (requestBodyIndex > -1) paramArgs.splice(requestBodyIndex, 0, body);
   return paramArgs;
 }
+

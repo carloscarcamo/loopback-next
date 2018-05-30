@@ -71,7 +71,9 @@ module.exports = class ProjectGenerator extends BaseGenerator {
     this.registerTransformStream(utils.renameEJS());
   }
 
-  setOptions() {
+  async setOptions() {
+    await super.setOptions();
+    if (this.shouldExit()) return false;
     if (this.options.name) {
       const msg = utils.validate(this.options.name);
       if (typeof msg === 'string') {

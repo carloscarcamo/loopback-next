@@ -35,6 +35,10 @@ module.exports = class ArtifactGenerator extends BaseGenerator {
     );
   }
 
+  async setOptions() {
+    return await super.setOptions();
+  }
+
   /**
    * Checks if current directory is a LoopBack project by checking for
    * keyword 'loopback' under 'keywords' attribute in package.json.

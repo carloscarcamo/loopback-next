@@ -4,6 +4,7 @@
 // License text available at https://opensource.org/licenses/MIT
 
 import {Constructor, Binding} from '@loopback/context';
+import {DataSource} from '@loopback/repository';
 
 /**
  * Type definition for ArtifactOptions. These are the options supported by

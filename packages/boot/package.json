@@ -32,8 +32,10 @@
     "@loopback/repository": "^0.10.4",
     "@types/debug": "0.0.30",
     "@types/glob": "^5.0.35",
+    "@types/lodash": "^4.14.109",
     "debug": "^3.1.0",
-    "glob": "^7.1.2"
+    "glob": "^7.1.2",
+    "lodash": "^4.17.10"
   },
   "devDependencies": {
     "@loopback/build": "^0.6.5",
